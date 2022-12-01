@@ -37,10 +37,10 @@ const unsigned int RELAY_PINS[] = {
 };
 
 const unsigned int MEMORY_ADDR[] = {
-  6,    // address of byte of relay 1 state in EEPROM
-  7,    // address of byte of relay 2 state in EEPROM
-  8,    // address of byte of relay 3 state in EEPROM
-  9     // address of byte of relay 4 state in EEPROM
+  6,    // address of relay 1 state in EEPROM
+  7,    // address of relay 2 state in EEPROM
+  8,    // address of relay 3 state in EEPROM
+  9     // address of relay 4 state in EEPROM
 };
 
 const int RELAY_ON = LOW;
@@ -84,13 +84,7 @@ bool formatEEPROM(){
 
 void setup() {
   Serial.begin(9600);
-/*  
-  // beállítjuk a lábakat kimenetre
-  for(int i=0; i<4; i++){
-    pinMode(RELAY_PINS[i], OUTPUT);
-  }
-*/  
-
+  
   if(!checkEEPROM()){
     bool result = formatEEPROM();
     Serial.println((result?"EEPROM formatted succesfully.":"EEPROM error. Couldn't format properly."));
@@ -110,8 +104,6 @@ void setup() {
 
 void loop() {
   if (mySwitch.available()) {
-    //output(mySwitch.getReceivedValue(), mySwitch.getReceivedBitlength(), mySwitch.getReceivedDelay(), mySwitch.getReceivedRawdata(),mySwitch.getReceivedProtocol());
-    Serial.println(mySwitch.getReceivedValue());
     // először nézzük, h. ki kell e kapcsolni valamit
     for(int i=0; i<4; i++){
       if(mySwitch.getReceivedValue() == COMMANDS_OFF[i]){
